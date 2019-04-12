@@ -27,7 +27,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		String password=(String) authentication.getCredentials();
 		String sql = "select username,password,phone,email,enabled from users where username='"+username+"' and password='"+password+"' ";
 		Users users = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Users.class));
-		String authoritiesSql = "select a.username,a.authority from users u left join authorities a on u.username=a.username where u.username='"+username+"' and a.password='"+password+"' ";
+		String authoritiesSql = "select a.username,a.authority from users u left join authorities a on u.username=a.username where u.username='"+username+"' and u.password='"+password+"' ";
 		List<Authorities> authoritiesList = jdbcTemplate.query(authoritiesSql, new BeanPropertyRowMapper(Authorities.class));
 		// 2.把用户User转换成Authentication对象返回
 		UsernamePasswordAuthenticationToken result = new UsernamePasswordAuthenticationToken(users,
